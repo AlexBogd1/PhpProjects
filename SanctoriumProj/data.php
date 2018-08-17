@@ -6,9 +6,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //подключаем БД
-$username = '';
-$password = '';
-$db = new PDO('mysql:host=localhost;dbname=&&&', $username, $password);
+$username = 'sanprimo_dboard';
+$password = 'CtfbT17NVqFL';
+$db = new PDO('mysql:host=localhost;dbname=sanprimo_dboard', $username, $password);
 $db->exec("set names utf8");
 
 //определяем даты

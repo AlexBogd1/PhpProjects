@@ -1,12 +1,20 @@
-﻿<!doctype html>
+﻿
+
+ 
+
+<!doctype html>
 <!--[if lte IE 9]>         <html lang="en" class="lt-ie10 lt-ie10-msg no-focus"> <![endif]-->
 <!--[if gt IE 9]><!--> <html lang="en" class="no-focus"> <!--<![endif]-->
-     <?php
+<?php
      session_start();
-        if(	!isset($_SESSION['a'])){
-            exit(header('Location:/index.html'));
+        if(    !isset($_SESSION['a'])){
+            exit(header('Location:/index.php'));
         }
-    ?> 
+
+
+?> 
+    
+    
 <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -96,48 +104,17 @@
             -->
             <!-- END Sidebar -->
 
-            <!-- Header -->
             <header id="page-header">
                 <!-- Header Content -->
-                <div class="content-header">
-
-			
-                    <!-- Right Section -->
-                    <div class="content-header-section">
-                        <!-- User Dropdown -->
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dashboard Санаториум<i class="fa fa-angle-down ml-5"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right min-width-150" aria-labelledby="page-header-user-dropdown">
-                                <a class="dropdown-item" href="index.html">
-                                    <i class="si si-logout mr-5"></i> Выход
-                                </a>
-                            </div>
-                        </div>
-                        <!-- END User Dropdown -->
-
-                        <!-- Toggle Side Overlay -->
-                        <!-- Layout API, functionality initialized in Codebase() -> uiApiLayout() -->
-                    </div>
-                    <!-- END Right Section -->
-                </div>
+               
                 <!-- END Header Content -->
 
 
 
                 <!-- Header Loader -->
-                <div id="page-header-loader" class="overlay-header bg-primary">
-                    <div class="content-header content-header-fullrow text-center">
-                        <div class="content-header-item">
-                            <i class="fa fa-sun-o fa-spin text-white"></i>
-                        </div>
-                    </div>
-                </div>
+                
                 <!-- END Header Loader -->
             </header>
-            <!-- END Header -->
-
             <!-- Main Container -->
             <main id="main-container">
                 <!-- Page Content -->
@@ -155,7 +132,7 @@
 							</a>
 						</div>
 						<div class="col-6 col-sm-4">
-							<a class="block block-link-shadow" href="javascript:void(0)">
+							<a class="block block-link-shadow" href="javascript:void(0)" >
 								<div class="block-content block-content-full text-right">
 									<div id="summonthypay" class="font-size-h2 font-w700">N/A</div>
 										<div class="font-size-sm font-w600 text-uppercase text-muted">Оборот за месяц</div>
@@ -163,10 +140,10 @@
 							</a>
 						</div>
 						<div class="col-6 col-sm-4">
-							<a class="block block-link-shadow" href="javascript:void(0)">
+							<a class="block block-link-shadow" href="javascript:void(0)" style = "height : 98px">
 								<div class="block-content block-content-full text-right">
-									<div id="time" class="font-size-h2 font-w700">XX:XX:XX</div>
-										<div class="font-size-sm font-w600 text-uppercase text-muted">Последнее обновление</div>
+									<div id="time" class="font-size-h3 font-w700" style = "border-top-width: 0px; padding-top: 8px;">XX:XX:XX</div>
+										<div class="font-size-sm font-w600 text-uppercase text-muted" style = "padding-top: 8px;">Последнее обновление</div>
 								</div>
 							</a>
 						</div>
@@ -300,6 +277,9 @@
                     </div>
                     <div class="float-left">
                         <a class="font-w600" href="#" target="_blank">Санаториум</a> &copy; <span class="js-year-copy"></span>
+                        <a class="dropdown-item" href="index.php">
+                                    <i class="si si-logout mr-5"></i> Выход
+                                </a>
                     </div>
                 </div>
             </footer>

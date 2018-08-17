@@ -34,3 +34,8 @@
   
 </body>
 </html>
+<?php
+     session_start();
+      $_SESSION['a']=false;
+      session_destroy();
+?> 
