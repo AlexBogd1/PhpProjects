@@ -1,9 +1,9 @@
 <?php
     
-// $username = 'sanprimo_dboard';
-// $password = 'CtfbT17NVqFL';
+// $username = '';
+// $password = '';
     
-// $db = new PDO('mysql:host=localhost;dbname=sanprimo_dboard', $username, $password);
+// $db = new PDO('mysql:host=localhost;dbname=########', $username, $password);
 // $db->exec("set names utf8");
  
 // $timethatmonth = mktime(0, 0, 0, date("m")-1,   1,   date("Y"));
