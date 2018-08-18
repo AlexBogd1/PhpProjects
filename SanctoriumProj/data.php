@@ -8,7 +8,11 @@ error_reporting(E_ALL);
 //подключаем БД
 $username = '';
 $password = '';
+<<<<<<< HEAD
 $db = new PDO('mysql:host=localhost;dbname=', $username, $password);
+=======
+$db = new PDO('mysql:host=localhost;dbname=#########', $username, $password);
+>>>>>>> 5c37f39aeda48f6a7a55a9e7c2706aab89db63e2
 $db->exec("set names utf8");
 
 //определяем даты
