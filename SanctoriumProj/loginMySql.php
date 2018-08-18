@@ -1,5 +1,5 @@
 <?php // loginDB
-    $hn = 'localhost';
+    $hn = '';
     $db = '';
     $un = '';
     $pw = '';

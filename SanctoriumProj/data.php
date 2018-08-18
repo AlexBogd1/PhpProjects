@@ -6,34 +6,37 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //подключаем БД
-$username = 'sanprimo_dboard';
-$password = 'CtfbT17NVqFL';
-$db = new PDO('mysql:host=localhost;dbname=sanprimo_dboard', $username, $password);
+$username = '';
+$password = '';
+$db = new PDO('mysql:host=localhost;dbname=', $username, $password);
 $db->exec("set names utf8");
 
 //определяем даты
 $timethatmonth = mktime(0, 0, 0, date("m"),   1,   date("Y"));
-$timetoday = mktime(date("H")+3, date("i"), date("s"), date("m"),   date("d"),   date("Y"));
+$timetoday = mktime(0, 0, 0, date("m"),   date("d"),   date("Y"));
 $timeyesterday = mktime(0, 0, 0, date("m"),   date("d")-1,   date("Y"));
-$timetoda =  gmdate("d-m-Y H:i:s", $timetoday);
+$timetoda =  gmdate("d.m.Y H:i:s", mktime(date("H")+3, date("i"), date("s"), date("m"),   date("d"),   date("Y")));
 //Вынимаем время последней записи в БД
 $stmt = $db->query('SELECT MAX(last_modified) FROM leads');
 $time = $stmt->fetchAll()[0]["MAX(last_modified)"];
 $time = gmdate("d-m-Y H:i:s", $time);
 
 //Количество лидов
-$stmt = $db->query('SELECT COUNT(*) FROM leads WHERE `date_create` >= '.$timethatmonth);
+$stmt = $db->query('SELECT COUNT(*) FROM leads WHERE (`date_create` >= '.$timethatmonth.' and pipeline_id = 514933)');
 $countleadsthismonth = $stmt->fetchAll()[0]["COUNT(*)"];
 
-$stmt = $db->query('SELECT COUNT(*) FROM leads WHERE `date_create` >= '.$timetoday);
+$stmt = $db->query('SELECT COUNT(*) FROM leads WHERE (`date_create` >= '.$timetoday.' and pipeline_id = 514933)');
 $countleadsthisday = $stmt->fetchAll()[0]["COUNT(*)"];
 
-$stmt = $db->query('SELECT COUNT(*) FROM leads WHERE (`date_create` >= '.$timeyesterday.' and `date_create` < '.$timetoday.')');
+$stmt = $db->query('SELECT COUNT(*) FROM leads WHERE (`date_create` >= '.$timeyesterday.' and `date_create` < '.$timetoday.' and pipeline_id = 514933)');
 $countleadsyesterday = $stmt->fetchAll()[0]["COUNT(*)"];
 
 //создаем массив users для менеджеров 
 $stmt =  $db->query("SELECT * FROM users WHERE users.group_id IN (188883,188880)");
 $userInf = $stmt->fetchAll();
+
+
+
 // извлекаем кол строк в таблице
 $managerresult;
 for($i =0; $i<count($userInf); $i++ ){
@@ -112,9 +115,9 @@ function howmanycontracts($datestart) {
 function sumpay($datestart) {
 global $db;
 $datestart = date("Y-m-d",$datestart);
-$stmt = $db->query('SELECT sum(sum_prepay) FROM leads WHERE `date_prepay` >= "'.$datestart.'"');
+$stmt = $db->query('SELECT sum(sum_prepay) FROM leads WHERE (`date_prepay` >= "'.$datestart.'" and (`pipeline_id` = 514933 or `pipeline_id` = 1024969))');
 $a = $stmt->fetchAll()[0][0];
-$stmt = $db->query('SELECT sum(sum_all_pay) FROM leads WHERE `date_all_pay` >= "'.$datestart.'"');
+$stmt = $db->query('SELECT sum(sum_all_pay) FROM leads WHERE (`date_all_pay` >= "'.$datestart.'" and (`pipeline_id` = 514933 or `pipeline_id` = 1024969))');
 $b = $stmt->fetchAll()[0][0];
 return round($a + $b,2);
 };
@@ -122,9 +125,9 @@ return round($a + $b,2);
 function countpay($datestart) {
 global $db;
 $datestart = date("Y-m-d",$datestart);
-$stmt = $db->query('SELECT sum(sum_prepay/price) FROM leads WHERE `date_prepay` >= "'.$datestart.'"');
+$stmt = $db->query('SELECT sum(sum_prepay/price) FROM leads WHERE (`date_prepay` >= "'.$datestart.'" and (`pipeline_id` = 514933 or `pipeline_id` = 1024969))');
 $a = $stmt->fetchAll()[0][0];
-$stmt = $db->query('SELECT sum(sum_all_pay/price) FROM leads WHERE `date_all_pay` >= "'.$datestart.'"');
+$stmt = $db->query('SELECT sum(sum_all_pay/price) FROM leads WHERE (`date_all_pay` >= "'.$datestart.'" and (`pipeline_id` = 514933 or `pipeline_id` = 1024969))');
 $b = $stmt->fetchAll()[0][0];
 return round($a + $b,2);
 }
@@ -135,16 +138,16 @@ function sum_sellers($user_id, $date_start) {
     global $db;
     $datestart = date("Y-m-d",$date_start);
     $stmt = $db->query("SELECT SUM( leads.sum_prepay * (100 - leads.percent_share)/100) FROM leads 
-    WHERE (leads.responsible_user_id = '$user_id' and DATE(leads.date_prepay) >= '$datestart') ");
+    WHERE (leads.responsible_user_id = '$user_id' and DATE(leads.date_prepay) >= '$datestart' and (leads.pipeline_id = 514933 or `pipeline_id` = 1024969)) ");
     $a = $stmt->fetchAll()[0][0];
     $stmt = $db->query("SELECT SUM( leads.sum_all_pay * (100 - leads.percent_share)/100) FROM leads
-    WHERE (leads.responsible_user_id = '$user_id' and leads.date_all_pay >= '$datestart') ");
+    WHERE (leads.responsible_user_id = '$user_id' and leads.date_all_pay >= '$datestart' and (leads.pipeline_id = 514933 or `pipeline_id` = 1024969)) ");
     $b = $stmt->fetchAll()[0][0];
     $stmt = $db->query(" SELECT SUM(leads.sum_prepay * (leads.percent_share / 100)) FROM leads 
-    WHERE (leads.manager_share = '$user_id' and leads.date_prepay >= '$datestart') ");
+    WHERE (leads.manager_share = '$user_id' and leads.date_prepay >= '$datestart' and (leads.pipeline_id = 514933 or `pipeline_id` = 1024969)) ");
     $c = $stmt->fetchAll()[0][0];
     $stmt = $db->query("SELECT SUM(leads.sum_all_pay * (leads.percent_share / 100)) FROM leads
-    WHERE (leads.manager_share = '$user_id' and leads.date_all_pay >= '$datestart') ");
+    WHERE (leads.manager_share = '$user_id' and leads.date_all_pay >= '$datestart' and (leads.pipeline_id = 514933 or `pipeline_id` = 1024969)) ");
     $d = $stmt->fetchAll()[0][0];
 
     return round($a + $b + $c + $d,2);
@@ -154,16 +157,16 @@ function number_selles($user_id, $date_start){
     global $db;
     $datestart = date("Y-m-d",$date_start);
     $stmt = $db->query("SELECT SUM(leads.sum_prepay/leads.price * (100 - leads.percent_share)/100) FROM leads 
-    WHERE (leads.responsible_user_id = '$user_id' and leads.date_prepay >= '$datestart') ");
+    WHERE (leads.responsible_user_id = '$user_id' and leads.date_prepay >= '$datestart' and (leads.pipeline_id = 514933 or `pipeline_id` = 1024969)) ");
     $a = $stmt->fetchAll()[0][0];
     $stmt = $db->query("SELECT SUM(leads.sum_all_pay/leads.price * (100 - leads.percent_share)/100) FROM leads
-    WHERE (leads.responsible_user_id = '$user_id' and leads.date_all_pay >= '$datestart') ");
+    WHERE (leads.responsible_user_id = '$user_id' and leads.date_all_pay >= '$datestart' and (leads.pipeline_id = 514933 or `pipeline_id` = 1024969)) ");
     $b = $stmt->fetchAll()[0][0];
     $stmt = $db->query("SELECT SUM(leads.sum_prepay/leads.price * (leads.percent_share / 100)) FROM leads 
-    WHERE (leads.manager_share = '$user_id' and leads.date_prepay >= '$datestart')" );
+    WHERE (leads.manager_share = '$user_id' and leads.date_prepay >= '$datestart' and (leads.pipeline_id = 514933 or `pipeline_id` = 1024969))" );
     $c = $stmt->fetchAll()[0][0];
     $stmt = $db->query("SELECT SUM(leads.sum_all_pay/leads.price * (leads.percent_share / 100)) FROM leads
-    WHERE (leads.manager_share = '$user_id' and leads.date_all_pay >= '$datestart') " );
+    WHERE (leads.manager_share = '$user_id' and leads.date_all_pay >= '$datestart' and (leads.pipeline_id = 514933 or `pipeline_id` = 1024969)) " );
     $d = $stmt->fetchAll()[0][0];
     return round($a + $b + $c + $d,2);
   }

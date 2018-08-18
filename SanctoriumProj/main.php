@@ -116,37 +116,46 @@
                 <!-- END Header Loader -->
             </header>
             <!-- Main Container -->
-            <main id="main-container">
+            <main id="main-container" style="padding-top: 30px">
                 <!-- Page Content -->
                 <div class="content bg-black-op-6">
                     <div class="row">
                         <!-- Row #2 -->
 						<div class="col-md-6">
-					<div class="row col-md-12 col-xl-12">
-					<div class="col-6 col-sm-4">
+						<div class="col-md-12">
+					<div class="row">
+					<div class="col-md-4">
 							<a class="block block-link-shadow" href="javascript:void(0)">
 								<div class="block-content block-content-full text-right">
+								<div class="float-left mt-10 d-none d-sm-block">
+								<i class="si si-wallet fa-2x text-body-bg-dark"></i>
+								</div>
 									<div id="sumtodaypay" class="font-size-h2 font-w700">N/A</div>
 										<div class="font-size-sm font-w600 text-uppercase text-muted">Оборот сегодня</div>
 								</div>
 							</a>
 						</div>
-						<div class="col-6 col-sm-4">
+						<div class="col-md-5">
 							<a class="block block-link-shadow" href="javascript:void(0)" >
 								<div class="block-content block-content-full text-right">
+								<div class="float-left mt-10 d-none d-sm-block">
+								<i class="si si-rocket fa-2x text-body-bg-dark"></i>
+								</div>
 									<div id="summonthypay" class="font-size-h2 font-w700">N/A</div>
 										<div class="font-size-sm font-w600 text-uppercase text-muted">Оборот за месяц</div>
 								</div>
 							</a>
 						</div>
-						<div class="col-6 col-sm-4">
-							<a class="block block-link-shadow" href="javascript:void(0)" style = "height : 98px">
+						<div class="col-md-3">
+							<a class="block block-link-shadow" href="javascript:void(0)" >
 								<div class="block-content block-content-full text-right">
-									<div id="time" class="font-size-h3 font-w700" style = "border-top-width: 0px; padding-top: 8px;">XX:XX:XX</div>
-										<div class="font-size-sm font-w600 text-uppercase text-muted" style = "padding-top: 8px;">Последнее обновление</div>
+									<div id="time" class="font-size-h2 font-w700">Время</div>
+									<div class="font-size-sm font-w600 text-uppercase text-muted">Дата <span id="day"> Дата </span> </div>
+
 								</div>
 							</a>
 						</div>
+					</div>
 					</div>
                         <div class="col-md-12">
                             <div class="block block-bordered block-rounded block block-themed">
@@ -312,7 +321,8 @@ var reloadFunction;
 					  $("#counttodaypay").text(data.counttodaypay);
 					  $("#countyesterdaypay").text(data.countyesterdaypay);
 					  $("#countmonthypay").text(data.countmonthypay);
-					  $("#time").text(data.time);
+					  $("#day").text(data.time.split(" ")[0]);
+					  $("#time").text(data.time.split(" ")[1]);
 					  $("#sumtodaypay").text(data.sumtodaypay);
 					  $("#sumyesterdaypay").text(data.sumyesterdaypay);
 					  $("#summonthypay").text(data.summonthypay);
@@ -352,9 +362,8 @@ setTable(data.managerresult);
 	reloadFunction();			
 	var intevalHandler = setInterval('reloadFunction()',1000);
 //};
-
- 
-        
+    $.post("/users.php");
+    var intervalForUsers = setInterval('$.post("/users.php")',300000);      
   </script>
     </body>
 </html>
